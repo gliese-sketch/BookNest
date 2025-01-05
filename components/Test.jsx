@@ -1,46 +1,47 @@
 "use client";
-import { useState } from "react";
+import { useReducer } from "react";
 import Form from "./Form";
 
+const namesReducer = (prevState, action) => {
+  switch (action.type) {
+    case "ADD":
+      const newName = {
+        id: crypto.randomUUID(),
+        likes: 0,
+        text: action.payload,
+      };
+      return [...prevState, newName];
+    case "DELETE":
+      return prevState.filter((nameObj) => nameObj.id !== action.payload);
+    case "SORT":
+      return [...prevState].sort((a, b) => b.likes - a.likes);
+    case "LIKE":
+      return prevState.map((nameObj) =>
+        nameObj.id === action.payload
+          ? { ...nameObj, likes: nameObj.likes + 1 }
+          : nameObj
+      );
+    case "DISLIKE":
+      return prevState.map((nameObj) =>
+        nameObj.id === action.payload
+          ? { ...nameObj, likes: nameObj.likes - 1 }
+          : nameObj
+      );
+    default:
+      return prevState;
+  }
+};
+
 function Test() {
-  const [names, setNames] = useState([]);
-
-  const handleAdd = (name) => {
-    setNames((prevState) => [
-      ...prevState,
-      { id: crypto.randomUUID(), text: name, likes: 0 },
-    ]);
-  };
-
-  const handleSort = () => {
-    console.log("Sort clicked");
-    setNames((prevState) => [...prevState].sort((a, b) => b.likes - a.likes));
-  };
-
-  const handleDelete = (id) => {
-    setNames((prevState) => prevState.filter((nameObj) => nameObj.id !== id));
-  };
-
-  const handleLike = (id) => {
-    setNames((prevState) =>
-      prevState.map((nameObj) =>
-        nameObj.id === id ? { ...nameObj, likes: nameObj.likes + 1 } : nameObj
-      )
-    );
-  };
-
-  const handleDislike = (id) => {
-    setNames((prevState) =>
-      prevState.map((nameObj) =>
-        nameObj.id === id ? { ...nameObj, likes: nameObj.likes - 1 } : nameObj
-      )
-    );
-  };
+  const [names, dispatch] = useReducer(namesReducer, []);
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
       {/* Form to add names */}
-      <Form onAdd={handleAdd} onSort={handleSort} />
+      <Form
+        onAdd={(name) => dispatch({ type: "ADD", payload: name })}
+        onSort={() => dispatch({ type: "SORT" })}
+      />
 
       {/* Display the names */}
       {names.map((nameObj) => (
@@ -51,12 +52,20 @@ function Test() {
           <p>{nameObj.text}</p>
           <p className="text-green-800">{nameObj.likes}</p>
 
-          <button onClick={() => handleDislike(nameObj.id)}>👎</button>
-          <button onClick={() => handleLike(nameObj.id)}>👍</button>
+          <button
+            onClick={() => dispatch({ type: "DISLIKE", payload: nameObj.id })}
+          >
+            👎
+          </button>
+          <button
+            onClick={() => dispatch({ type: "LIKE", payload: nameObj.id })}
+          >
+            👍
+          </button>
 
           <button
             className="bg-red-400 btn"
-            onClick={() => handleDelete(nameObj.id)}
+            onClick={() => dispatch({ type: "DELETE", payload: nameObj.id })}
           >
             Delete
           </button>
