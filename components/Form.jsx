@@ -8,7 +8,7 @@ function Form({ onSort, onAdd }) {
 
     if (inputVal.trim() === "") return; // Check if input is empty
 
-    handleAdd(inputVal); // Update state
+    onAdd(inputVal); // Update state
 
     setInputVal(""); // Empty the input field
   };
@@ -22,7 +22,7 @@ function Form({ onSort, onAdd }) {
         value={inputVal}
         onChange={(e) => setInputVal(e.target.value)}
       />
-      <button className="bg-orange-500 btn" type="button" onClick={handleSort}>
+      <button className="bg-orange-500 btn" type="button" onClick={onSort}>
         Sort
       </button>
       <button className="bg-blue-500 btn" type="submit">

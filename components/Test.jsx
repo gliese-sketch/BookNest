@@ -1,8 +1,16 @@
 "use client";
+import { useState } from "react";
 import Form from "./Form";
 
 function Test() {
   const [names, setNames] = useState([]);
+
+  const handleAdd = (name) => {
+    setNames((prevState) => [
+      ...prevState,
+      { id: crypto.randomUUID(), text: name, likes: 0 },
+    ]);
+  };
 
   const handleSort = () => {
     console.log("Sort clicked");
@@ -32,7 +40,7 @@ function Test() {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
       {/* Form to add names */}
-      <Form />
+      <Form onAdd={handleAdd} onSort={handleSort} />
 
       {/* Display the names */}
       {names.map((nameObj) => (
