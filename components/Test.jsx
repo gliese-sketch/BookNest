@@ -5,25 +5,20 @@ function Test() {
   const [inputVal, setInputVal] = useState("");
   const [names, setNames] = useState([]);
 
-  // page reload se rokna hai
-  // input field ki value ko empty karna hai
-  // setNames ki help se names array ke andar daalna hai value ko
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page refresh
-
-    setNames((prevState) => {
-      const newState = [...prevState, inputVal];
-      console.log(newState);
-
-      return newState;
-    });
-
+    setNames((prevState) => [...prevState, inputVal]); // Update state
     setInputVal(""); // Empty the input field
+  };
+
+  const handleDelete = () => {
+    console.log("Button clicked");
   };
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
-      <form className="flex gap-1 items-center" onSubmit={handleSubmit}>
+      {/* Form to add names */}
+      <form className="flex gap-1 items-center mb-10" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="test"
@@ -31,10 +26,21 @@ function Test() {
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
         />
-        <button className="bg-blue-500 text-white px-2 py-1 rounded-md">
-          Add
-        </button>
+        <button className="bg-blue-500 btn">Add</button>
       </form>
+
+      {/* Display the names */}
+      {names.map((name) => (
+        <div
+          key={name}
+          className="flex gap-2 items-center border border-black/50 rounded-lg px-2 py-1"
+        >
+          <p>{name}</p>
+          <button className="bg-red-400 btn" onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
+      ))}
     </div>
   );
 }
