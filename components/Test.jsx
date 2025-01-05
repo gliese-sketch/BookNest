@@ -27,6 +27,8 @@ const namesReducer = (prevState, action) => {
           ? { ...nameObj, likes: nameObj.likes - 1 }
           : nameObj
       );
+    case "ORDER":
+      return [...prevState].sort((a, b) => a.text.localeCompare(b.text));
     default:
       return prevState;
   }
@@ -41,6 +43,7 @@ function Test() {
       <Form
         onAdd={(name) => dispatch({ type: "ADD", payload: name })}
         onSort={() => dispatch({ type: "SORT" })}
+        onOrder={() => dispatch({ type: "ORDER" })}
       />
 
       {/* Display the names */}

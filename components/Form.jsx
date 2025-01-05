@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Form({ onSort, onAdd }) {
+function Form({ onSort, onAdd, onOrder }) {
   const [inputVal, setInputVal] = useState("");
 
   const handleSubmit = (e) => {
@@ -24,6 +24,9 @@ function Form({ onSort, onAdd }) {
       />
       <button className="bg-orange-500 btn" type="button" onClick={onSort}>
         Sort
+      </button>
+      <button className="bg-green-500 btn" type="button" onClick={onOrder}>
+        Order
       </button>
       <button className="bg-blue-500 btn" type="submit">
         Add
