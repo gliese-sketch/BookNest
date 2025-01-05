@@ -12,6 +12,7 @@ function Test() {
       {
         id: crypto.randomUUID(),
         text: inputVal,
+        likes: 0,
       },
     ]); // Update state
     setInputVal(""); // Empty the input field
@@ -19,6 +20,22 @@ function Test() {
 
   const handleDelete = (id) => {
     setNames((prevState) => prevState.filter((nameObj) => nameObj.id !== id));
+  };
+
+  const handleLike = (id) => {
+    setNames((prevState) =>
+      prevState.map((nameObj) =>
+        nameObj.id === id ? { ...nameObj, likes: nameObj.likes + 1 } : nameObj
+      )
+    );
+  };
+
+  const handleDislike = (id) => {
+    setNames((prevState) =>
+      prevState.map((nameObj) =>
+        nameObj.id === id ? { ...nameObj, likes: nameObj.likes - 1 } : nameObj
+      )
+    );
   };
 
   return (
@@ -42,6 +59,11 @@ function Test() {
           className="flex gap-2 items-center border border-black/50 rounded-lg px-2 py-1"
         >
           <p>{nameObj.text}</p>
+          <p className="text-green-800">{nameObj.likes}</p>
+
+          <button onClick={() => handleDislike(nameObj.id)}>👎</button>
+          <button onClick={() => handleLike(nameObj.id)}>👍</button>
+
           <button
             className="bg-red-400 btn"
             onClick={() => handleDelete(nameObj.id)}
