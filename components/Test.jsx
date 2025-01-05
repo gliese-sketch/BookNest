@@ -7,6 +7,9 @@ function Test() {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page refresh
+
+    if (inputVal.trim() === "") return; // Check if input is empty
+
     setNames((prevState) => [
       ...prevState,
       {
@@ -16,6 +19,11 @@ function Test() {
       },
     ]); // Update state
     setInputVal(""); // Empty the input field
+  };
+
+  const handleSort = () => {
+    console.log("Sort clicked");
+    setNames((prevState) => [...prevState].sort((a, b) => b.likes - a.likes));
   };
 
   const handleDelete = (id) => {
@@ -49,7 +57,16 @@ function Test() {
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
         />
-        <button className="bg-blue-500 btn">Add</button>
+        <button
+          className="bg-orange-500 btn"
+          type="button"
+          onClick={handleSort}
+        >
+          Sort
+        </button>
+        <button className="bg-blue-500 btn" type="submit">
+          Add
+        </button>
       </form>
 
       {/* Display the names */}
