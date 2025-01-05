@@ -7,12 +7,18 @@ function Test() {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page refresh
-    setNames((prevState) => [...prevState, inputVal]); // Update state
+    setNames((prevState) => [
+      ...prevState,
+      {
+        id: crypto.randomUUID(),
+        text: inputVal,
+      },
+    ]); // Update state
     setInputVal(""); // Empty the input field
   };
 
-  const handleDelete = () => {
-    console.log("Button clicked");
+  const handleDelete = (id) => {
+    setNames((prevState) => prevState.filter((nameObj) => nameObj.id !== id));
   };
 
   return (
@@ -30,13 +36,16 @@ function Test() {
       </form>
 
       {/* Display the names */}
-      {names.map((name) => (
+      {names.map((nameObj) => (
         <div
-          key={name}
+          key={nameObj.id}
           className="flex gap-2 items-center border border-black/50 rounded-lg px-2 py-1"
         >
-          <p>{name}</p>
-          <button className="bg-red-400 btn" onClick={handleDelete}>
+          <p>{nameObj.text}</p>
+          <button
+            className="bg-red-400 btn"
+            onClick={() => handleDelete(nameObj.id)}
+          >
             Delete
           </button>
         </div>
