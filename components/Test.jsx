@@ -1,25 +1,8 @@
 "use client";
-import { useState } from "react";
+import Form from "./Form";
 
 function Test() {
-  const [inputVal, setInputVal] = useState("");
   const [names, setNames] = useState([]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page refresh
-
-    if (inputVal.trim() === "") return; // Check if input is empty
-
-    setNames((prevState) => [
-      ...prevState,
-      {
-        id: crypto.randomUUID(),
-        text: inputVal,
-        likes: 0,
-      },
-    ]); // Update state
-    setInputVal(""); // Empty the input field
-  };
 
   const handleSort = () => {
     console.log("Sort clicked");
@@ -49,25 +32,7 @@ function Test() {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
       {/* Form to add names */}
-      <form className="flex gap-1 items-center mb-10" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="test"
-          className="border px-2 py-1"
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-        />
-        <button
-          className="bg-orange-500 btn"
-          type="button"
-          onClick={handleSort}
-        >
-          Sort
-        </button>
-        <button className="bg-blue-500 btn" type="submit">
-          Add
-        </button>
-      </form>
+      <Form />
 
       {/* Display the names */}
       {names.map((nameObj) => (
