@@ -7,7 +7,7 @@ export function booksReducer(state: Book[], action: Action): Book[] {
         author: action.payload.author,
         likes: 0,
       };
-      return [...state, newBook];
+      return [newBook, ...state];
     case "delete":
       return state.filter((book) => book.id !== action.payload.id);
     case "sort":

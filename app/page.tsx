@@ -31,8 +31,8 @@ function Page() {
       <HeroHighlight>
         <h1 className="text-2xl sm:text-4xl md:text-6xl">BookNest</h1>
       </HeroHighlight>
-      <AddBook />
-      <ListBooks books={books} />
+      <AddBook dispatch={dispatch} />
+      <ListBooks books={books} dispatch={dispatch} />
     </div>
   );
 }

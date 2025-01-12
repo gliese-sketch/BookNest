@@ -1,9 +1,13 @@
-import React, { FormEvent, useRef } from "react";
+import React, { Dispatch, FormEvent, useRef } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowDown01Icon, CrossIcon } from "lucide-react";
 
-function AddBook() {
+interface AddBookProps {
+  dispatch: Dispatch<Action>;
+}
+
+function AddBook({ dispatch }: AddBookProps) {
   const bookTitle = useRef<HTMLInputElement>(null);
   const bookAuthor = useRef<HTMLInputElement>(null);
 
@@ -15,7 +19,10 @@ function AddBook() {
     const bookTitleValue = bookTitle.current.value;
     const bookAuthorValue = bookAuthor.current.value;
 
-    console.log(bookTitleValue, bookAuthorValue);
+    dispatch({
+      type: "add",
+      payload: { title: bookTitleValue, author: bookAuthorValue },
+    });
 
     // Empty the input fields
     bookTitle.current.value = "";
@@ -30,7 +37,11 @@ function AddBook() {
       <Input placeholder="Book title" ref={bookTitle} required />
       <Input placeholder="Author" ref={bookAuthor} required />
       <div className="flex gap-2">
-        <Button variant="outline" type="button">
+        <Button
+          variant="outline"
+          type="button"
+          onClick={() => dispatch({ type: "sort" })}
+        >
           <ArrowDown01Icon /> Sort
         </Button>
         <Button type="submit">
