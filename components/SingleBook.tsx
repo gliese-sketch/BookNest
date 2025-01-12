@@ -9,16 +9,20 @@ import {
 import { Button } from "./ui/button";
 import { BadgeMinus, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
-function SingleBook() {
+interface SingleBookProps {
+  book: Book;
+}
+
+function SingleBook({ book }: SingleBookProps) {
   return (
     <div>
-      <Card className="w-60">
+      <Card className="w-80">
         <CardHeader>
-          <CardTitle className="text-xl">F. Scott Fitzgerald</CardTitle>
-          <CardDescription>Priority: 10</CardDescription>
+          <CardTitle className="text-xl">{book.author}</CardTitle>
+          <CardDescription>Priority: {book.likes}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>The Great Gatsby</p>
+          <p>{book.title}</p>
         </CardContent>
         <CardFooter className="flex gap-2">
           <Button variant="outline">

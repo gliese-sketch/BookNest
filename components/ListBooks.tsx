@@ -1,18 +1,16 @@
 import React from "react";
 import SingleBook from "./SingleBook";
 
-function ListBooks() {
+interface ListBooksProps {
+  books: Book[];
+}
+
+function ListBooks({ books }: ListBooksProps) {
   return (
     <section className="px-4 flex flex-wrap gap-2 justify-center mb-10">
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
-      <SingleBook />
+      {books.map((book) => (
+        <SingleBook key={book.id} book={book} />
+      ))}
     </section>
   );
 }
